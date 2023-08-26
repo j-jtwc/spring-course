@@ -125,4 +125,11 @@ public class HelloWorldController {
         objectReferenceResponse = new ObjectReferenceResponse();
         objectReferenceResponse.setName("Jay3");
     }
+
+    @PostMapping(path = "/delete")
+    public ResponseEntity<?> delete(String deleteId) {
+        PersonEntity personEntity = personRepository.findById(1L).orElse(null);
+        personRepository.delete(personEntity);
+        return new ResponseEntity<>(new CommonResponse("OK"), HttpStatus.OK);
+    }
 }
