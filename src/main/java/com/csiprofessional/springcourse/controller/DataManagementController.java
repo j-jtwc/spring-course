@@ -3,7 +3,6 @@ package com.csiprofessional.springcourse.controller;
 import com.csiprofessional.springcourse.dao.PersonDao;
 import com.csiprofessional.springcourse.dao.PersonRoomDao;
 import com.csiprofessional.springcourse.repository.PersonRepository;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DataManagementController {
     private final PersonDao personDao;
     private final PersonRoomDao personRoomDao;
+    private final PersonRepository personRepository;
 
     @GetMapping(path = "/person")
     public ResponseEntity<?> getPerson() {
@@ -26,6 +26,11 @@ public class DataManagementController {
     @GetMapping(path = "/person-room")
     public ResponseEntity<?> getPersonRoom() {
         return ResponseEntity.ok(personRoomDao.getPersonRoomCustomEntityById(1L));
+    }
+
+    @GetMapping(path = "/all-person")
+    public ResponseEntity<?> getAllPerson() {
+        return ResponseEntity.ok(personRepository.getAllPerson(2L));
     }
 
 

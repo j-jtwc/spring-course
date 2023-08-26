@@ -19,7 +19,9 @@ public class PersonRoomDao {
                 "r.seat \n" +
                 "from person_room pr \n" +
                 "left join person p on p.id  = pr.person_id \n" +
-                "left join room r on r.id = pr.room_id ", PeronRoomCustomEntity.class);
+                "left join room r on r.id = pr.room_id " +
+                "where 1=1 " +
+                "", PeronRoomCustomEntity.class);
         return (PeronRoomCustomEntity) query.getSingleResult();
     }
 }
