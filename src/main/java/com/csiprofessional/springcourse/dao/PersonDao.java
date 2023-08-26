@@ -6,6 +6,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @RequiredArgsConstructor
@@ -21,5 +22,12 @@ public class PersonDao {
         } catch (NoResultException n) {
             return null;
         }
+    }
+
+    @Transactional
+    public void updatePersonById(Long id) {
+        entityManager.createNativeQuery("update person set firstname = 'test' where id =:id")
+                .setParameter("id", id)
+                .executeUpdate();
     }
 }
