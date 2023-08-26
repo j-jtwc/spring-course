@@ -5,6 +5,7 @@ import com.csiprofessional.springcourse.repository.PersonRepository;
 import com.csiprofessional.springcourse.request.PersonaTalkRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -56,5 +57,11 @@ public class HelloWorldService {
 
     public int howManyTalks() {
         return personRepository.findAllBy().size();
+    }
+
+    @Transactional
+    public void updateWihtoutSave() {
+        PersonEntity personEntity = personRepository.findByFirstname("TEST123");
+        personEntity.setAddress("Address 14:12");
     }
 }

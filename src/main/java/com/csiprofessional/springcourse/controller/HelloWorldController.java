@@ -24,6 +24,7 @@ public class HelloWorldController {
 
 
     private final HelloWorldService helloWorldService;
+    private final PersonRepository personRepository;
 
     @GetMapping()
     public String sayHello() {
@@ -40,6 +41,47 @@ public class HelloWorldController {
         HelloWorldResonse helloWorldResonse = new HelloWorldResonse();
         helloWorldResonse.setText("Hello " + helloWorldRequest.getName());
         return new ResponseEntity<>(helloWorldResonse, HttpStatus.CREATED);
+    }
+
+    @PostMapping(path = "/updarte-person-talk-update-without-save")
+    public ResponseEntity<?> updatePersonTalkWithoutSave() {
+
+//        PersonEntity personEntity = personRepository.findByFirstname("TEST123");
+//        personEntity.setAddress("Address 14:11");
+//        personRepository.save(personEntity);
+
+        helloWorldService.updateWihtoutSave();
+
+        return new ResponseEntity<>(new CommonResponse("OK"), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/updarte-person-talk")
+    public ResponseEntity<?> updatePersonTalk() {
+
+        PersonEntity personEntity = personRepository.findByFirstname("Jiratip2");
+        personEntity.setFirstname("TEST123");
+        personEntity.setLastname("ABC123");
+        personRepository.save(personEntity);
+
+        return new ResponseEntity<>(personEntity, HttpStatus.OK);
+    }
+
+
+    @PostMapping(path = "/updarte-person-talk-phone")
+    public ResponseEntity<?> updatePersonTalkPhoneByEmail() {
+
+        List<PersonEntity> personEntities = personRepository.findByEmail("jiratip.w@gmail.com");
+        personEntities.forEach(personEntity -> {
+            personEntity.setPhone("123456789");
+        });
+
+//        for (PersonEntity personEntity : personEntities) {
+//            personEntity.setPhone("123456789");
+//        }
+
+        personRepository.saveAll(personEntities);
+
+        return new ResponseEntity<>(personEntities, HttpStatus.OK);
     }
 
     @PostMapping(path = "/add-person-talk")
@@ -60,7 +102,6 @@ public class HelloWorldController {
 
     @PostMapping(path = "/add-person-talks")
     public ResponseEntity<?> addPersonTalks(@RequestBody List<PersonaTalkRequest> personaTalkRequests) {
-
         List<PersonEntity> personEntities = helloWorldService.addPersonWhoTalks(personaTalkRequests);
         return new ResponseEntity<>(personEntities, HttpStatus.CREATED);
     }
@@ -83,9 +124,5 @@ public class HelloWorldController {
 
         objectReferenceResponse = new ObjectReferenceResponse();
         objectReferenceResponse.setName("Jay3");
-    }
-
-    private void modifyString(String name) {
-        name = "A2";
     }
 }
